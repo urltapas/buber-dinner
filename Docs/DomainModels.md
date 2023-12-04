@@ -1,11 +1,14 @@
-@host = http://localhost:5140
+# Domain Models
 
-POST {{host}}/auth/register
-Content-Type: application/json
+## User
 
+```json
 {
     "firstName": "New",
     "lastName": "User",
     "email": "new.user@email.com",
     "password": "newuser"
 }
+```
+
+> Note: Passwords shouldn't be laying like this!!
