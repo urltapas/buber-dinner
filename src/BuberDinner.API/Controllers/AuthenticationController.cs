@@ -6,17 +6,19 @@ namespace BuberDinner.API.Controllers;
 
 [ApiController]
 [Route("auth")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController(IAuthenticationService authenticationService) : ControllerBase
 {
-    private readonly IAuthenticationService _authenticationService;
-
-    public AuthenticationController(IAuthenticationService authenticationService)
-    {
-        _authenticationService = authenticationService;
-    }
+    private readonly IAuthenticationService _authenticationService = authenticationService;
 
     [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
+    public IActionResult Register(RegisterRequest request) => Ok(UserRegister(request));
+
+    [HttpPost("login")]
+    public IActionResult Login(LoginRequest request) => Ok(UserLogin(request));
+
+    #region private methods
+
+    private AuthenticationResponse UserRegister(RegisterRequest request)
     {
         var authResult = _authenticationService.Register(
             request.FirstName,
@@ -30,12 +32,10 @@ public class AuthenticationController : ControllerBase
             authResult.User.LastName,
             authResult.User.Email,
             authResult.Token);
-
-        return Ok(response);
+        return response;
     }
 
-    [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
+    private AuthenticationResponse UserLogin(LoginRequest request)
     {
         var authResult = _authenticationService.Login(
             request.Email,
@@ -47,7 +47,8 @@ public class AuthenticationController : ControllerBase
             authResult.User.LastName,
             authResult.User.Email,
             authResult.Token);
-
-        return Ok(response);
+        return response;
     }
+
+    #endregion
 }

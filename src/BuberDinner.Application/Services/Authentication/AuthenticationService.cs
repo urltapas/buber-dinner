@@ -41,10 +41,10 @@ public class AuthenticationService : IAuthenticationService
     {
         // Validate the user exists
         if (_userRepository.GetUserByEmail(email) is not User user)
-            throw new Exception("User with given email does not exist.");
+            throw new EmailGivenNotFoundException();
 
-        if (user.Password != password) throw new Exception("Invalid password.");
         // Validate the password is correct
+        if (user.Password != password) throw new InvalidPasswordException();
 
 
         // Create JWT token
