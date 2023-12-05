@@ -1,11 +1,11 @@
 ﻿using BuberDinner.Application.Common.Interfaces.Persistence;
-using BuberDinner.Domain.Entoty;
+using BuberDinner.Domain.Entities;
 
 namespace BuberDinner.Infra.Persistence;
 
 public class UserRepository : IUserRepository
 {
-    private static readonly List<User> _users = [];
+    private static readonly List<User> _users = new();
 
     public void AddUser(User user)
     {

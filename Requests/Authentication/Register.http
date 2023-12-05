@@ -8,4 +8,4 @@ Content-Type: application/json
     "lastName": "User",
     "email": "new.user@email.com",
     "password": "newuser"
-}
+} 
