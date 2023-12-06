@@ -1,4 +1,4 @@
-﻿using BuberDinner.Application.Errors;
+﻿using BuberDinner.Application;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +12,7 @@ public class ErrorsController : ControllerBase
         var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
         var (statusCode, message) = exception switch
         {
-            DuplicateEmailException => (StatusCodes.Status409Conflict, DuplicateEmailException.ErrorMessage),
-            EmailGivenNotFoundException => (StatusCodes.Status404NotFound, EmailGivenNotFoundException.ErrorMessage),
-            InvalidPasswordException => (StatusCodes.Status400BadRequest, InvalidPasswordException.ErrorMessage),
+            IServiceException serviceException => ((int)serviceException.StatusCode, serviceException.ErrorMessage),
             _ => (StatusCodes.Status500InternalServerError, "An error occurred while processing your request")
         };
 

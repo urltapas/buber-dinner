@@ -1,8 +1,8 @@
 ﻿using System.Net;
 namespace BuberDinner.Application.Errors;
 
-public class EmailGivenNotFoundException : Exception
+public class EmailGivenNotFoundException : Exception, IServiceException
 {
-    public static HttpStatusCode StatusCode => HttpStatusCode.NotFound;
-    public static string ErrorMessage => "Email Given User Not Found";
+    public HttpStatusCode StatusCode => HttpStatusCode.NotFound;
+    public string ErrorMessage => "Email given not found";
 }

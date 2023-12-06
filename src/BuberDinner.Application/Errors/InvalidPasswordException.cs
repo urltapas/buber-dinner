@@ -1,8 +1,8 @@
 ﻿using System.Net;
 namespace BuberDinner.Application.Errors;
 
-public class InvalidPasswordException : Exception
+public class InvalidPasswordException : Exception, IServiceException
 {
-    public const string ErrorMessage = "Invalid password.";
-    public static HttpStatusCode StatusCode => HttpStatusCode.BadRequest;
+    public string ErrorMessage => "Invalid password.";
+    public HttpStatusCode StatusCode => HttpStatusCode.BadRequest;
 }
