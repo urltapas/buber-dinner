@@ -1,16 +1,9 @@
-﻿using BuberDinner.Application.Common.Interfaces.Authentication;
-using BuberDinner.Application.Common.Interfaces.Persistence;
-using BuberDinner.Application.Authentication.Common;
-using BuberDinner.Application.Errors;
-using BuberDinner.Domain.Entities;
-using MediatR;
-
-namespace BuberDinner.Application;
+﻿namespace BuberDinner.Application.Authentication.Commands.Register;
 
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthenticationResult>
 {
-    private readonly IUserRepository _userRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IUserRepository _userRepository;
 
     public RegisterCommandHandler(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
     {

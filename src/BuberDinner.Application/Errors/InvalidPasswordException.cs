@@ -1,5 +1,4 @@
-﻿using System.Net;
-namespace BuberDinner.Application.Errors;
+﻿namespace BuberDinner.Application.Errors;
 
 public class InvalidPasswordException : Exception, IServiceException
 {

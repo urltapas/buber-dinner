@@ -1,9 +1,4 @@
-﻿using BuberDinner.Application;
-using BuberDinner.Application.Authentication.Common;
-using BuberDinner.Application.Authentication.Queries;
-using BuberDinner.Contracts.Authentication;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using BuberDinner.Application.Authentication.Commands.Register;
 
 namespace BuberDinner.API.Controllers;
 
@@ -22,7 +17,7 @@ public class AuthenticationController(ISender mediator) : ControllerBase
             request.Email,
             request.Password);
 
-        AuthenticationResult authResult = await _mediator.Send(command);
+        var authResult = await _mediator.Send(command);
         return Ok(authResult);
     }
 

@@ -1,7 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace BuberDinner.Application;
+﻿namespace BuberDinner.Application;
 
 public static class DependencyInjection
 {

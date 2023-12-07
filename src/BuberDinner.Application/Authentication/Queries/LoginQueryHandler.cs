@@ -1,16 +1,10 @@
-﻿using BuberDinner.Application.Authentication.Common;
-using BuberDinner.Application.Common.Interfaces.Authentication;
-using BuberDinner.Application.Common.Interfaces.Persistence;
-using BuberDinner.Application.Errors;
-using BuberDinner.Domain.Entities;
-using MediatR;
-
-namespace BuberDinner.Application.Authentication.Queries;
+﻿namespace BuberDinner.Application.Authentication.Queries;
 
 public class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResult>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _userRepository;
+
     public LoginQueryHandler(IJwtTokenGenerator tokenGenerator, IUserRepository userRepository)
     {
         _jwtTokenGenerator = tokenGenerator;
@@ -32,5 +26,4 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResul
         var token = _jwtTokenGenerator.GenerateToken(user);
         return new AuthenticationResult(user, token);
     }
-
 }

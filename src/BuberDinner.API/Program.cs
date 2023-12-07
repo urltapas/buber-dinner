@@ -1,6 +1,3 @@
-using BuberDinner.Application;
-using BuberDinner.Infra;
-
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddInfrastructure(builder.Configuration);
