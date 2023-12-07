@@ -1,62 +1,39 @@
-﻿using BuberDinner.Application.Services.Authentication.Commands;
-using BuberDinner.Application.Services.Authentication.Queries;
+﻿using BuberDinner.Application;
+using BuberDinner.Application.Authentication.Common;
+using BuberDinner.Application.Authentication.Queries;
 using BuberDinner.Contracts.Authentication;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BuberDinner.API.Controllers;
 
 [ApiController]
 [Route("auth")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController(ISender mediator) : ControllerBase
 {
-    private readonly IAuthenticationCommandService _authenticationCommandService;
-    private readonly IAuthenticationQueryService _authenticationQueryService;
-
-    public AuthenticationController(IAuthenticationCommandService authenticationCommandService, IAuthenticationQueryService authenticationQueryService)
-    {
-        _authenticationCommandService = authenticationCommandService;
-        _authenticationQueryService = authenticationQueryService;
-    }
+    private readonly ISender _mediator = mediator;
 
     [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request) => Ok(UserRegister(request));
-
-    [HttpPost("login")]
-    public IActionResult Login(LoginRequest request) => Ok(UserLogin(request));
-
-    #region private methods
-
-    private AuthenticationResponse UserRegister(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var authResult = _authenticationCommandService.Register(
+        var command = new RegisterCommand(
             request.FirstName,
             request.LastName,
             request.Email,
             request.Password);
 
-        var response = new AuthenticationResponse(
-            authResult.User.Id,
-            authResult.User.FirstName,
-            authResult.User.LastName,
-            authResult.User.Email,
-            authResult.Token);
-        return response;
+        AuthenticationResult authResult = await _mediator.Send(command);
+        return Ok(authResult);
     }
 
-    private AuthenticationResponse UserLogin(LoginRequest request)
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginRequest request)
     {
-        var authResult = _authenticationQueryService.Login(
-            request.Email,
-            request.Password);
-
-        var response = new AuthenticationResponse(
-            authResult.User.Id,
-            authResult.User.FirstName,
-            authResult.User.LastName,
-            authResult.User.Email,
+        var authResult = await _mediator.Send(new LoginQuery(request.Email, request.Password));
+        var response = new AuthenticationResult(
+            authResult.User,
             authResult.Token);
-        return response;
-    }
 
-    #endregion
+        return Ok(response);
+    }
 }
