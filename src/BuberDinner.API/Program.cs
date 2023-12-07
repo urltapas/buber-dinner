@@ -1,8 +1,10 @@
+using BuberDinner.API;
+
 var builder = WebApplication.CreateBuilder(args);
 {
-    builder.Services.AddInfrastructure(builder.Configuration);
+    builder.Services.AddPresentation();
     builder.Services.AddApplication();
-    builder.Services.AddControllers();
+    builder.Services.AddInfrastructure(builder.Configuration);
 }
 
 var app = builder.Build();
