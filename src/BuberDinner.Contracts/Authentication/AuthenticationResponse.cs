@@ -2,7 +2,7 @@
 
 public record AuthenticationResponse(
     Guid Id,
-    string FristName,
+    string FirstName,
     string LastName,
     string Email,
     string Token);
